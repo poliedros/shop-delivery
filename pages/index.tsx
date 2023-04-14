@@ -23,7 +23,6 @@ import Animation from "../components/Animation";
 
 const IndexPage = () => {
   const [show, setShow] = useState(false);
-  const [create, setCreate] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -58,74 +57,61 @@ const IndexPage = () => {
       </div>
 
       <Modal show={show} size={"xl"} onHide={handleClose}>
-        <div className="flex justify-between p-[16px]">
-          <Modal.Header>
-            {" "}
-            {/*closeButton*/}
-            <Modal.Title>
-              {/* <Row> */}
-              <Col sm={10} className="!flex items-center w-auto">
-                <Button variant="outline-warning" className="!p-[16px] mr-3">
-                  {Icon("md", "MdArrowBackIosNew")}
-                </Button>
-                {/* <Button
+        <Modal.Header closeButton>
+          {" "}
+          {/*closeButton*/}
+          <Modal.Title>
+            <div className="p-[6px] flex flex-wrap items-center">
+              <Button variant="outline-warning" className="!p-[16px] mr-3 my-2">
+                {Icon("md", "MdArrowBackIosNew")}
+              </Button>
+              {/* <Button
               variant="outline-primary"
               className="!p-[16px] !flex items-center mr-3"
             >
               {Icon("fa", "FaPlus")} &nbsp; Produto
             </Button> */}
-                <DropdownButton
-                  id="dropdown-basic-button"
-                  variant="primary"
-                  className="mr-3"
-                  title={"Adicionar Produto"}
+              <DropdownButton
+                id="dropdown-basic-button"
+                variant="primary"
+                className="mr-3 my-2"
+                title={"Adicionar Produto"}
+              >
+                <Dropdown.Item
+                  href="#/action-1"
+                  className="!flex items-center m-1"
                 >
-                  <Dropdown.Item
-                    href="#/action-1"
-                    className="!flex items-center m-1"
-                  >
-                    {Icon("gi", "GiPizzaSlice")} &nbsp; Pizza
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    href="#/action-2"
-                    className="!flex items-center m-1"
-                  >
-                    {Icon("gi", "GiPieSlice")} &nbsp; Sobremesa
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    href="#/action-3"
-                    className="!flex items-center m-1"
-                  >
-                    {Icon("gi", "GiGlassShot")} &nbsp; Bebida
-                  </Dropdown.Item>
-                </DropdownButton>
-                <Button
-                  variant="outline-info"
-                  className="!p-[16px] !flex items-center mr-3"
+                  {Icon("gi", "GiPizzaSlice")} &nbsp; Pizza
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href="#/action-2"
+                  className="!flex items-center m-1"
                 >
-                  {Icon("gi", "GiPieSlice")}
-                </Button>
-                <Button
-                  variant="outline-info"
-                  className="!p-[16px] !flex items-center mr-3"
+                  {Icon("gi", "GiPieSlice")} &nbsp; Sobremesa
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href="#/action-3"
+                  className="!flex items-center m-1"
                 >
-                  {Icon("gi", "GiGlassShot")}
-                </Button>
-              </Col>
+                  {Icon("gi", "GiGlassShot")} &nbsp; Bebida
+                </Dropdown.Item>
+              </DropdownButton>
+              <Button
+                variant="outline-info"
+                className="!p-[16px] !flex items-center mr-3 my-2"
+              >
+                {Icon("gi", "GiPieSlice")}
+              </Button>
+              <Button
+                variant="outline-info"
+                className="!p-[16px] !flex items-center mr-3 my-2"
+              >
+                {Icon("gi", "GiGlassShot")}
+              </Button>
+            </div>
+          </Modal.Title>
+        </Modal.Header>
 
-              {/* </Row> */}
-            </Modal.Title>
-          </Modal.Header>
-          <div className="flex items-center justify-end">
-            <Button
-              variant="outline-danger"
-              className="!p-[16px] !flex items-center mr-3"
-              onClick={handleClose}
-            >
-              {Icon("md", "MdClose")}
-            </Button>
-          </div>
-        </div>
         <Modal.Body>
           <div className="flex justify-center mb-3"></div>
           <Accordion className="mb-6">

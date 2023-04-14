@@ -8,7 +8,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 // Animation.defaultProps = {};
 
-export default function Animation(create, setCreate) {
+export default function Animation() {
   useEffect(() => {
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera( 100, window.innerWidth/window.innerHeight, 0.1, 1000 );
@@ -81,7 +81,7 @@ export default function Animation(create, setCreate) {
       renderer.render(scene, camera);
     }
     render();
-  })
+  }, [])
   return (
     <div id="canvas" />
   )
