@@ -61,5 +61,5 @@ jobs:
         with:
           name: "VERSION"
           value: $((${{ secrets.VERSION }}+1))
-          repository: poliedros/shop-delivery
+          repository: poliedros/shop-delivery-app
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
