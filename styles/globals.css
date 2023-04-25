@@ -40,3 +40,7 @@
 .dropdown-menu {
   margin: 1rem !important;
 }
+
+.rounded-modal .modal-content {
+  border-radius: 100% !important;
+}

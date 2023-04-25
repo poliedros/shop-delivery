@@ -5,9 +5,27 @@
 // import { User } from 'path/to/interfaces';
 
 export type Product = {
-  id: string
-  name: string
-  type: string
-  price: number
-  description: string
-}
+  id: string;
+  name: string;
+  type: string;
+  price: number;
+  description: string;
+  observation: string;
+  quantity: number;
+};
+
+export type DeliveryList = {
+  id: string;
+  products: Product[];
+  paymentMethod: string;
+  total: number;
+  deliveryPerson: string;
+};
+
+export type Client = {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  deliveryListIds: string[];
+};

@@ -18,23 +18,63 @@ import {
 import Icon from "../components/icons/Icon";
 import Cylinder3d from "../components/Cylinder3D";
 import { Canvas } from "@react-three/fiber";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Animation from "../components/Animation";
+import List from "@/components/List";
+import { sampleUserData } from "@/utils/sample-data";
+import { Product, DeliveryList } from "@/interfaces";
 
 const IndexPage = () => {
-  const [show, setShow] = useState(false);
+  const [type, setType] = useState("");
 
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  function handleShow(tp: string) {
+    setType(tp);
+    setIShow(false);
+    deliveryList.products.push({
+      id: "001",
+      name: "",
+      type: tp,
+      price: 0,
+      description: "",
+      observation: "",
+      quantity: 0,
+    });
+    setDeliveryList(deliveryList);
+    setShow(true);
+    console.log(deliveryList);
+  }
+
+  const [iShow, setIShow] = useState(false);
+  const handleIClose = () => setIShow(false);
+  const handleIShow = () => setIShow(true);
+
+  const [deliveryList, setDeliveryList] = useState<DeliveryList>({
+    id: "001",
+    products: [],
+    paymentMethod: "",
+    deliveryPerson: "",
+    total: 0,
+  });
+  const [quantity, setQuantity] = useState(1);
+  const [half, setHalf] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState(0);
+
+  const items: Product[] = sampleUserData;
+
+  useEffect(() => {
+    setDeliveryList(deliveryList);
+  }, [deliveryList.products.length]);
 
   return (
-    <Layout title="Home | Next.js + TypeScript Example">
+    <Layout title="Compras Delivery">
       <div className="slide-top absolute bottom-0 flex justify-center w-100">
         <ButtonGroup aria-label="Basic example">
-          <Button variant="outline-light" onClick={handleShow}>
+          <Button variant="outline-light" onClick={handleIShow}>
             {Icon("gi", "GiKnifeFork", "24px")}
           </Button>
-          <Button variant="outline-light">
+          <Button variant="outline-light" onClick={() => handleShow("pizza")}>
             {Icon("gi", "GiFoodTruck", "24px")}
           </Button>
           <Button variant="outline-light">
@@ -55,6 +95,39 @@ const IndexPage = () => {
       <div className="flex">
         <Animation /> {/* create={create} setCreate={setCreate} */}
       </div>
+
+      <Modal
+        show={iShow}
+        size={"sm"}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        onHide={handleIClose}
+        className="rounded-modal"
+      >
+        <ButtonGroup aria-label="Basic example">
+          <Button
+            variant="outline-info"
+            className="!flex justify-center"
+            onClick={() => handleShow("pizza")}
+          >
+            {Icon("gi", "GiPizzaSlice", "32px")}
+          </Button>
+          <Button
+            variant="outline-light"
+            className="!flex justify-center"
+            onClick={() => handleShow("sobremesa")}
+          >
+            {Icon("gi", "GiPieSlice", "32px")}
+          </Button>
+          <Button
+            variant="outline-info"
+            className="!flex justify-center"
+            onClick={() => handleShow("bebida")}
+          >
+            {Icon("gi", "GiGlassShot", "32px")}
+          </Button>
+        </ButtonGroup>
+      </Modal>
 
       <Modal show={show} size={"xl"} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -80,23 +153,97 @@ const IndexPage = () => {
                 <Dropdown.Item
                   href="#/action-1"
                   className="!flex items-center m-1"
+                  onClick={() => {
+                    deliveryList.products.push({
+                      id: "001",
+                      name: "",
+                      type: "pizza",
+                      price: 0,
+                      description: "",
+                      observation: "",
+                      quantity: 0,
+                    });
+                    setDeliveryList(deliveryList);
+                  }}
                 >
                   {Icon("gi", "GiPizzaSlice")} &nbsp; Pizza
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#/action-2"
                   className="!flex items-center m-1"
+                  onClick={() => {
+                    deliveryList.products.push({
+                      id: "001",
+                      name: "",
+                      type: "sobremesa",
+                      price: 0,
+                      description: "",
+                      observation: "",
+                      quantity: 0,
+                    });
+                    setDeliveryList(deliveryList);
+                  }}
                 >
                   {Icon("gi", "GiPieSlice")} &nbsp; Sobremesa
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#/action-3"
                   className="!flex items-center m-1"
+                  onClick={() => {
+                    deliveryList.products.push({
+                      id: "001",
+                      name: "",
+                      type: "bebida",
+                      price: 0,
+                      description: "",
+                      observation: "",
+                      quantity: 0,
+                    });
+                    setDeliveryList(deliveryList);
+                  }}
                 >
                   {Icon("gi", "GiGlassShot")} &nbsp; Bebida
                 </Dropdown.Item>
               </DropdownButton>
-              <Button
+              <>
+                {deliveryList.products.map((p, k) => {
+                  if (p.type === "pizza")
+                    return (
+                      <Button
+                        key={k}
+                        variant="outline-info"
+                        className="!p-[16px] !flex items-center mr-3 my-2"
+                        onClick={() => setCurrentProduct(k)}
+                      >
+                        {Icon("gi", "GiPizzaSlice", "26px")}
+                      </Button>
+                    );
+                  if (p.type === "sobremesa")
+                    return (
+                      <Button
+                        key={k}
+                        variant="outline-info"
+                        className="!p-[16px] !flex items-center mr-3 my-2"
+                        onClick={() => setCurrentProduct(k)}
+                      >
+                        {Icon("gi", "GiPieSlice", "26px")}
+                      </Button>
+                    );
+                  if (p.type === "bebida")
+                    return (
+                      <Button
+                        key={k}
+                        variant="outline-info"
+                        className="!p-[16px] !flex items-center mr-3 my-2"
+                        onClick={() => setCurrentProduct(k)}
+                      >
+                        {Icon("gi", "GiGlassShot", "26px")}
+                      </Button>
+                    );
+                  return <></>;
+                })}
+              </>
+              {/* <Button
                 variant="outline-info"
                 className="!p-[16px] !flex items-center mr-3 my-2"
               >
@@ -107,142 +254,70 @@ const IndexPage = () => {
                 className="!p-[16px] !flex items-center mr-3 my-2"
               >
                 {Icon("gi", "GiGlassShot")}
-              </Button>
+              </Button> */}
             </div>
           </Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <div className="flex justify-center mb-3"></div>
           <Accordion className="mb-6">
             <Accordion.Item eventKey="0">
               <Accordion.Header>
-                {Icon("gi", "GiPizzaSlice", "24px")} &nbsp; Pizza
+                {deliveryList.products.length > 0
+                  ? deliveryList.products[currentProduct].type === "pizza"
+                    ? Icon("gi", "GiPizzaSlice", "32px")
+                    : deliveryList.products[currentProduct].type === "sobremesa"
+                    ? Icon("gi", "GiPieSlice", "32px")
+                    : deliveryList.products[currentProduct].type === "bebida"
+                    ? Icon("gi", "GiGlassShot", "32px")
+                    : null
+                  : null}{" "}
+                &nbsp;{" "}
+                {deliveryList.products.length > 0
+                  ? deliveryList.products[currentProduct].type === "pizza"
+                    ? "Pizza"
+                    : deliveryList.products[currentProduct].type === "sobremesa"
+                    ? "Sobremesa"
+                    : deliveryList.products[currentProduct].type === "bebida"
+                    ? "Bebida"
+                    : null
+                  : null}
               </Accordion.Header>
               <Accordion.Body>
-                <Table hover striped="columns">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>Nome</th>
-                      <th>Descrição</th>
-                      <th>Preço</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="flex justify-center">
-                        <Form.Check
-                          inline
-                          className="m-0"
-                          name="group1"
-                          type={"radio"}
-                          id={`inline-radio-1`}
-                        />
-                      </td>
-                      <td>Pizza Calabreza</td>
-                      <td>Otto</td>
-                      <td>R$38,20</td>
-                    </tr>
-                    <tr>
-                      <td className="flex justify-center">
-                        <Form.Check
-                          inline
-                          className="m-0"
-                          name="group1"
-                          type={"radio"}
-                          id={`inline-radio-2`}
-                        />
-                      </td>
-                      <td>Portuguesa</td>
-                      <td>Thornton</td>
-                      <td>R$42,90</td>
-                    </tr>
-                    <tr>
-                      <td className="flex justify-center">
-                        <Form.Check
-                          inline
-                          className="m-0"
-                          name="group1"
-                          type={"radio"}
-                          id={`inline-radio-3`}
-                        />
-                      </td>
-                      <td colSpan={2}>Vegetariana</td>
-                      <td>R$34,00</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="1">
-              <Accordion.Header>
-                {Icon("gi", "GiPizzaCutter", "24px")} &nbsp; Segunda metade
-              </Accordion.Header>
-              <Accordion.Body>
-                <Form.Check
-                  inline
-                  className="mb-3"
-                  label="Desejo pizza com duas metades"
-                  type={"checkbox"}
-                  id={`inline-checkbox-1`}
+                <List
+                  items={items}
+                  search={
+                    deliveryList.products.length > 0
+                      ? deliveryList.products[currentProduct].type
+                      : ""
+                  }
                 />
-                <Table hover striped="columns">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>Nome</th>
-                      <th>Descrição</th>
-                      <th>Preço</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="flex justify-center">
-                        <Form.Check
-                          inline
-                          className="m-0"
-                          name="group1"
-                          type={"radio"}
-                          id={`inline-radio-1`}
-                        />
-                      </td>
-                      <td>Pizza Calabreza</td>
-                      <td>Otto</td>
-                      <td>R$38,20</td>
-                    </tr>
-                    <tr>
-                      <td className="flex justify-center">
-                        <Form.Check
-                          inline
-                          className="m-0"
-                          name="group1"
-                          type={"radio"}
-                          id={`inline-radio-2`}
-                        />
-                      </td>
-                      <td>Portuguesa</td>
-                      <td>Thornton</td>
-                      <td>R$42,90</td>
-                    </tr>
-                    <tr>
-                      <td className="flex justify-center">
-                        <Form.Check
-                          inline
-                          className="m-0"
-                          name="group1"
-                          type={"radio"}
-                          id={`inline-radio-3`}
-                        />
-                      </td>
-                      <td colSpan={2}>Vegetariana</td>
-                      <td>R$34,00</td>
-                    </tr>
-                  </tbody>
-                </Table>
               </Accordion.Body>
             </Accordion.Item>
-            <Accordion.Item eventKey="2">
+            {deliveryList.products.length > 0 ? (
+              deliveryList.products[currentProduct].type === "pizza" ? (
+                <Accordion.Item eventKey="1">
+                  <Accordion.Header>
+                    {Icon("gi", "GiPizzaCutter", "32px")} &nbsp; Segunda metade
+                  </Accordion.Header>
+                  <Accordion.Body>
+                    <Form.Check
+                      inline
+                      className="mb-3"
+                      label="Desejo pizza com duas metades"
+                      type={"checkbox"}
+                      id={`inline-checkbox-1`}
+                      onChange={() => setHalf(!half)}
+                    />
+                    <List items={items} search={type} disable={half} />
+                  </Accordion.Body>
+                </Accordion.Item>
+              ) : (
+                <></>
+              )
+            ) : null}
+
+            {/* <Accordion.Item eventKey="2">
               <Accordion.Header>
                 {Icon("gi", "GiPieSlice", "24px")} &nbsp; Sobremesa
               </Accordion.Header>
@@ -335,7 +410,7 @@ const IndexPage = () => {
                   </tbody>
                 </Table>
               </Accordion.Body>
-            </Accordion.Item>
+            </Accordion.Item> */}
           </Accordion>
           <Row className="flex items-center">
             <Col sm={8}>
@@ -350,17 +425,27 @@ const IndexPage = () => {
             <Col sm={4} className="flex flex-column items-center">
               <Col>
                 <InputGroup className="mb-3 !rounded-full">
-                  <Button variant="outline-danger" id="button-addon1">
+                  <Button
+                    variant="outline-danger"
+                    id="button-addon1"
+                    onClick={() =>
+                      quantity > 0 ? setQuantity(quantity - 1) : null
+                    }
+                  >
                     {Icon("fa", "FaMinus", "14px")}
                   </Button>
                   <Form.Control
                     className="!p-[16px]"
                     aria-label="Example text with button addon"
                     aria-describedby="basic-addon1"
-                    value="1"
+                    value={quantity}
                     disabled
                   />
-                  <Button variant="outline-success" id="button-addon1">
+                  <Button
+                    variant="outline-success"
+                    id="button-addon1"
+                    onClick={() => setQuantity(quantity + 1)}
+                  >
                     {Icon("fa", "FaPlus", "14px")}
                   </Button>
                 </InputGroup>
