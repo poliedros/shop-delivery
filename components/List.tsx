@@ -40,8 +40,8 @@ const List = ({ items, search, disable = true }: Props) => (
           .filter((item) => {
             if (item.type === search) return true;
           })
-          .map((item) => (
-            <tr>
+          .map((item, i) => (
+            <tr key={i}>
               <td className="flex justify-center">
                 <Form.Check
                   inline
