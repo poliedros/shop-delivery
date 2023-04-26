@@ -10,8 +10,8 @@ export type Product = {
   type: string;
   price: number;
   description: string;
-  observation: string;
-  quantity: number;
+  observation?: string;
+  quantity?: number;
 };
 
 export type DeliveryList = {
