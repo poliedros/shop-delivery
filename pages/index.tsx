@@ -23,6 +23,7 @@ import Animation from "../components/Animation";
 import List from "@/components/List";
 import { sampleUserData } from "@/utils/sample-data";
 import { Product, DeliveryList } from "@/interfaces";
+import Gallery from "@/components/Gallery";
 
 const IndexPage = () => {
   const [type, setType] = useState("");
@@ -69,6 +70,7 @@ const IndexPage = () => {
 
   return (
     <Layout title="Compras Delivery">
+      {/* <Gallery /> */}
       <div className="slide-top absolute bottom-0 flex justify-center w-100">
         <ButtonGroup aria-label="Basic example">
           <Button variant="outline-light" onClick={handleIShow}>

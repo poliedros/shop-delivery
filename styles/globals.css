@@ -44,3 +44,26 @@
 .rounded-modal .modal-content {
   border-radius: 100% !important;
 }
+
+/* for Gallery 3D */
+#blocker {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+#instructions {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+/* end Gallery 3D */
